@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Expense> _expense = [];
   final List<String> _category = [
     'Food',
-    'Smook',
+    'Drink',
     'Tea',
   ];
 
