@@ -38,23 +38,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
   double _total = 0.0;
 
-  void _addExpense(String title,double amount, DateTime date,String category){
+  void _addExpense(
+      String title, double amount, DateTime date, String category) {
     setState(() {
-      _expense.add(Expense(title: title, amount: amount, date: date, category: category));
+      _expense.add(Expense(
+          title: title, amount: amount, date: date, category: category));
       _total += amount;
     });
-
   }
 
-  void _deleteExpense(int index){
+  void _deleteExpense(int index) {
     setState(() {
       _total -= _expense[index].amount;
       _expense.removeAt(index);
     });
   }
-
-
-
 
   void _showForm(BuildContext context) {
     TextEditingController titleController = TextEditingController();
@@ -78,35 +76,49 @@ class _HomeScreenState extends State<HomeScreen> {
                   controller: titleController,
                   decoration: InputDecoration(labelText: 'Title'),
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 TextField(
                   controller: amountController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(labelText: 'Amount'),
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 DropdownButtonFormField<String>(
-                  items: _category.map((category)=>DropdownMenuItem(value : category , child: Text(category))).toList(),
+                  items: _category
+                      .map((category) => DropdownMenuItem(
+                          value: category, child: Text(category)))
+                      .toList(),
                   onChanged: (value) => selectedCategory = value!,
                   decoration: InputDecoration(labelText: 'Category'),
                 ),
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton(onPressed: (){
-                      if(titleController.text.isEmpty || double.tryParse(amountController.text) == null ){
-                        return;
-                      }
-                      _addExpense(titleController.text, double.parse(amountController.text), selectedDate, selectedCategory);
-                      titleController.clear();
-                      amountController.clear();
-                      Navigator.pop(context);
-
-
-
-                    }, child: Text("Add Expense"))),
-                SizedBox(height: 20,)
-
+                    child: ElevatedButton(
+                        onPressed: () {
+                          if (titleController.text.isEmpty ||
+                              double.tryParse(amountController.text) == null) {
+                            return;
+                          }
+                          _addExpense(
+                              titleController.text,
+                              double.parse(amountController.text),
+                              selectedDate,
+                              selectedCategory);
+                          titleController.clear();
+                          amountController.clear();
+                          Navigator.pop(context);
+                        },
+                        child: Text("Add Expense"))),
+                SizedBox(
+                  height: 20,
+                )
               ],
             ),
           );
@@ -145,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   return Dismissible(
                     key: Key(_expense[index].hashCode.toString()),
                     background: Container(color: Colors.red),
-                    onDismissed: (direction)=>_deleteExpense(index),
+                    onDismissed: (direction) => _deleteExpense(index),
                     child: Card(
                       child: ListTile(
                         leading: CircleAvatar(
@@ -155,10 +167,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         title: Text(_expense[index].title),
                         subtitle: Text(
                             DateFormat.yMMMd().format(_expense[index].date)),
-                        trailing:
-                            Text(_expense[index].amount.toString(),style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
-                            // IconButton(onPressed: ()=>_deleteExpense(index), icon: Icon(Icons.delete), )
-
+                        trailing: Text(
+                          _expense[index].amount.toString(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                        // IconButton(onPressed: ()=>_deleteExpense(index), icon: Icon(Icons.delete), )
                       ),
                     ),
                   );
